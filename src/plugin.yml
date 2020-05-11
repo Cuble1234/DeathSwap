@@ -1,0 +1,10 @@
+name: DeathSwap
+version: 1.0
+api-version: 1.15
+main: me.Cuble1234.deathswap.DeathSwap
+author: Cuble1234
+
+commands:
+    ds:
+        usage: /<command>
+        description: start the DeathSwap
