@@ -20,8 +20,8 @@ public class DeathSwapHandler {
 		int min = 20 * sm.getConfig().getInt("mintime");
 		sm.setStart(true);
 		
-		Location l1 = sm.getPlayers()[0].getLocation(new Location(sm.getPlayers()[0].getWorld(),r.nextInt(100000-1000)+1000, 0,r.nextInt(100000-1000)+1000));
-		Location l2 = l1;
+		Location l1 = new Location(sm.getPlayers()[0].getWorld(),r.nextInt(100000-1000)+1000, 0,r.nextInt(100000-1000)+1000);
+		Location l2 = new Location(l1.getWorld(), l1.getX(),l1.getY(),l1.getZ());
 		sm.setStartLocation(sm.getPlayers()[0].getLocation());
 		
 		l1.add(708, 0, 708);
