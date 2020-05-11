@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class DeathSwapCommand implements CommandExecutor {
 	
-	VariableManager vm = VariableManager.getInstance();
+	SettingsManager sm = SettingsManager.getInstance();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -35,35 +35,34 @@ public class DeathSwapCommand implements CommandExecutor {
 				return true;
 			}
 			
-			if (Bukkit.getOnlinePlayers().size() < 2) {
+			if (Bukkit.getServer().getOnlinePlayers().size() < 2) {
 				p.sendMessage(ChatColor.RED + "You need more than 2 players");
 			}
 			
-			if (Bukkit.getOnlinePlayers().size() > 2 && args.length != 3) {
+			if (Bukkit.getServer().getOnlinePlayers().size() > 2 && args.length != 3) {
 				p.sendMessage(ChatColor.RED + "You are more than 2 pepole in the server, please specify 2 players!");
 				return true;
 			}
 			if(args.length == 3) {
-				vm.setPlayers(Bukkit.getServer().getPlayer(args[1]),0);
-				if (vm.getPlayers()[0] == null) {
+				sm.setPlayers(Bukkit.getServer().getPlayer(args[1]),0);
+				if (sm.getPlayers()[0] == null) {
 					p.sendMessage(ChatColor.RED + "Could not find the player " + args[1] + "!");
 					return true;
 				}
-				vm.setPlayers(Bukkit.getServer().getPlayer(args[2]),1);
-				if (vm.getPlayers()[1] == null) {
+				sm.setPlayers(Bukkit.getServer().getPlayer(args[2]),1);
+				if (sm.getPlayers()[1] == null) {
 					p.sendMessage(ChatColor.RED + "Could not find the player " + args[2] + "!");
 					return true;
 				}
 			}
-			if(Bukkit.getOnlinePlayers().size() == 2 && args.length == 1) {
+			if(Bukkit.getServer().getOnlinePlayers().size() == 2 && args.length == 1) {
 				int i = 0;
 				for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-					vm.setPlayers(player,i);
+					sm.setPlayers(player,i);
 					i++;
 				}
 			}
-			
-			DeathSwap d = new DeathSwap();
+			DeathSwapHandler d = new DeathSwapHandler();
 			d.deathSwap();
 			
 		}

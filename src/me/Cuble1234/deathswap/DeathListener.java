@@ -9,34 +9,33 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class DeathListener implements Listener{
 	
-	VariableManager vm = VariableManager.getInstance();
+	SettingsManager sm = SettingsManager.getInstance();
 	@EventHandler
 	public void onPlayerDeath(EntityDamageEvent e) {
 		if (!(e.getEntity() instanceof Player)) return;
-		if (!vm.isStart()) return;
+		if (!sm.isStart()) return;
 		
 		Player p = (Player) e.getEntity();
 		
 		if (p.getHealth() <= e.getDamage()) {
-			vm.setStart(false);
-			Bukkit.getServer().getScheduler().cancelTask(vm.getTaskID());
+			sm.setStart(false);
+			Bukkit.getServer().getScheduler().cancelTask(sm.getTaskID());
 			Player lose = p;
-
-			if (vm.getPlayers()[0].getName().equalsIgnoreCase(lose.getName())) {
-				vm.getPlayers()[1].sendMessage(ChatColor.GREEN + "You are the winner");
-				vm.getPlayers()[1].teleport(vm.getStartLocation());
-			}
-			
-			else {
-				vm.getPlayers()[0].sendMessage(ChatColor.GREEN + "You are the winner");
-				vm.getPlayers()[0].teleport(vm.getStartLocation());
-			}
-
 			e.setCancelled(true);
+			p.teleport(sm.getStartLocation());
 			p.setHealth(20);
 
-			vm.setPlayers(null,0);
-			vm.setPlayers(null,1);
+			if (sm.getPlayers()[0].getName().equalsIgnoreCase(lose.getName())) {
+				sm.getPlayers()[1].sendMessage(ChatColor.GREEN + "You are the winner");
+				sm.getPlayers()[1].teleport(sm.getStartLocation());
+			}
+			else {
+				sm.getPlayers()[0].sendMessage(ChatColor.GREEN + "You are the winner");
+				sm.getPlayers()[0].teleport(sm.getStartLocation());
+			}
+			
+			sm.setPlayers(null,0);
+			sm.setPlayers(null,1);
 		}
 	}
 }
