@@ -10,10 +10,13 @@ public class DeathSwap extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		SettingsManager.getInstance().setup(this);
+		if(SettingsManager.getInstance().getConfig().getInt("maxtime") < SettingsManager.getInstance().getConfig().getInt("mintime")) {
+			System.out.println("Max number cannot be smaller than the min nember!");
+			this.getPluginLoader().disablePlugin(this);
+		}
 		Bukkit.getServer().getPluginManager().registerEvents(new DeathListener(), this);
 		DeathSwapCommand dsc = new DeathSwapCommand();
 		getCommand("ds").setExecutor(dsc);
-		
 		
 	}
 	
